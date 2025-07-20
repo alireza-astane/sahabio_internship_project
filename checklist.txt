@@ -1,0 +1,11 @@
+Day 0: 
+	quickstart on metabase 
+	quickstart on swagger 
+	postgressSQL tutorial 
+	Django begginer tutorial 
+	install metabase 
+
+Day 1: 
+	gitlab account and repo 
+	project design 
+	
