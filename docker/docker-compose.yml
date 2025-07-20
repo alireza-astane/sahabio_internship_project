@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: sahab
+      POSTGRES_USER: sahab
+      POSTGRES_PASSWORD: sahab
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  zookeeper:
+    image: bitnami/zookeeper:3.8
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: yes
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: bitnami/kafka:3.4
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+
+  airflow:
+    image: apache/airflow:2.7.0
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://sahab:sahab@db:5432/sahab
+      AIRFLOW__CORE__FERNET_KEY: your_fernet_key_here
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'False'
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+
+volumes:
+  db_data:

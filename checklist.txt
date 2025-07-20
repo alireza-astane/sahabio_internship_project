@@ -9,3 +9,71 @@ Day 1:
 	gitlab account and repo 
 	project design 
 	
+
+
+
+
+
+
+
+
+Step-by-Step Development Plan
+Week 1
+Project Setup
+
+Initialize Git repo, set up basic folder structure.
+Create Dockerfiles for each service.
+Django API
+
+Scaffold Django project and REST API (CRUD for apps).
+Add Swagger docs.
+Write unit tests for API.
+PostgreSQL Schema
+
+Design models for App, AppStatSnapshot, AppReview.
+Apply migrations.
+Kafka Setup
+
+Set up Kafka and Zookeeper with Docker Compose.
+Create topics: app_stats, app_reviews.
+Crawler Service
+
+Implement crawler to fetch app stats/reviews.
+Integrate with Django API to get active apps.
+Push data to Kafka topics.
+Write basic error handling.
+Kafka Consumer
+
+Implement consumer to read from Kafka and insert into PostgreSQL.
+Write unit tests.
+Week 2
+Metabase Integration
+
+Connect Metabase to PostgreSQL.
+Create dashboards (score trends, review trends, etc.).
+Sentiment Analysis (Optional)
+
+Add sentiment analysis to reviews (VADER/TextBlob).
+Store sentiment in DB.
+Visualize in Metabase.
+Airflow Integration
+
+Set up Airflow with Docker.
+Create DAGs for crawler scheduling, logging, error handling.
+Add notifications for failures.
+CI/CD Pipeline
+
+Set up GitHub Actions for test, build, and deploy.
+Automate Docker builds and push.
+Testing & Documentation
+
+Write integration tests for the whole pipeline.
+Finalize API docs (Swagger).
+Update README with setup and usage instructions.
+Final Review & Polish
+
+Check all components work together.
+Polish dashboards and documentation.
+Prepare final report/presentation.
+Tip:
+Work incrementally, commit often, and test each component before moving to the next. Let me know if you want sample configs or code for any step!
