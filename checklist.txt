@@ -8,7 +8,12 @@ Day 0:
 Day 1: 
 	gitlab account and repo 
 	project design 
+	create dockerfiles
+	create django api 
+	initialize swagger documentation 
+	 
 	
+
 
 
 
