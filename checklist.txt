@@ -16,12 +16,13 @@ Day 1:
 	Setup PostgresSQL Database
 	Design models for App, AppStatSnapshot, AppReview.
 	Apply migrations.
+	Set up Kafka and Zookeeper with Docker Compose.
+	Create topics: app_stats, app_reviews.
 
 	
-Kafka Setup
 
-Set up Kafka and Zookeeper with Docker Compose.
-Create topics: app_stats, app_reviews.
+
+
 
 Crawler Service
 
@@ -34,6 +35,10 @@ Kafka Consumer
 
 Implement consumer to read from Kafka and insert into PostgreSQL.
 Write unit tests.
+
+
+
+
 Week 2
 Metabase Integration
 
