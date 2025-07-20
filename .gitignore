@@ -1,3 +1,13 @@
 *.pdf
 
 ./*.pdf
+
+
+
+/__pycache__/
+
+api/apps/__pycache__/
+api/config/__pycache__/
+api/core/__pycache__/
+api/core/migrations/__pycache__/
+api/core/tests/__pycache__/

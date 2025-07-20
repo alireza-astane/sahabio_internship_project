@@ -6,42 +6,18 @@ Day 0:
 	install metabase 
 
 Day 1: 
-	gitlab account and repo 
+	gitlab account and repo, set up basic folder structure.
 	project design 
 	create dockerfiles
 	create django api 
 	initialize swagger documentation 
 	wrtie unit test for api 
+	Design PostgreSQL Schema
+	Setup PostgresSQL Database
+	Design models for App, AppStatSnapshot, AppReview.
+	Apply migrations.
 
 	
-
-
-
-
-
-
-
-
-
-Step-by-Step Development Plan
-Week 1
-Project Setup
-
-Initialize Git repo, set up basic folder structure.
-Create Dockerfiles for each service.
-
-Django API
-
-Scaffold Django project and REST API (CRUD for apps).
-Add Swagger docs.
-Write unit tests for API.
-
-PostgreSQL Schema
-
-Design models for App, AppStatSnapshot, AppReview.
-Apply migrations.
-
-
 Kafka Setup
 
 Set up Kafka and Zookeeper with Docker Compose.
