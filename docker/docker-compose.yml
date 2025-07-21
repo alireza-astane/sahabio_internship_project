@@ -30,6 +30,18 @@ services:
     depends_on:
       - zookeeper
 
+
+
+  api:
+    build: ../api
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ../api:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
   # airflow:
   #   image: apache/airflow:2.7.0
   #   environment:

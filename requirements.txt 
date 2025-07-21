@@ -1,1 +1,4 @@
 pip install django djangorestframework drf-spectacular psycopg2-binary
+pip install kafka-python
+
+pip install google-play-scraper

@@ -18,18 +18,18 @@ Day 1:
 	Apply migrations.
 	Set up Kafka and Zookeeper with Docker Compose.
 	Create topics: app_stats, app_reviews.
+	Implement crawler to fetch app stats/reviews.
+	Integrate with Django API to get active apps.
+	Push data to Kafka topics.
+	Write basic error handling.
 
 	
 
 
 
 
-Crawler Service
+# Problem The list of apps gets duplications!!!
 
-Implement crawler to fetch app stats/reviews.
-Integrate with Django API to get active apps.
-Push data to Kafka topics.
-Write basic error handling.
 
 Kafka Consumer
 
