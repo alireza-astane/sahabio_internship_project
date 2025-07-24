@@ -22,6 +22,10 @@ Day 1:
 	Integrate with Django API to get active apps.
 	Push data to Kafka topics.
 	Write basic error handling.
+	Implement consumer to read from Kafka and insert into PostgreSQL.
+	Write unit tests.
+	Metabase Integration
+	Connect Metabase to PostgreSQL.
 
 	
 
@@ -31,29 +35,38 @@ Day 1:
 # Problem The list of apps gets duplications!!!
 
 
-Kafka Consumer
-
-Implement consumer to read from Kafka and insert into PostgreSQL.
-Write unit tests.
 
 
-
-
-Week 2
-Metabase Integration
-
-Connect Metabase to PostgreSQL.
-Create dashboards (score trends, review trends, etc.).
-Sentiment Analysis (Optional)
 
 Add sentiment analysis to reviews (VADER/TextBlob).
 Store sentiment in DB.
-Visualize in Metabase.
+
+
 Airflow Integration
 
 Set up Airflow with Docker.
 Create DAGs for crawler scheduling, logging, error handling.
 Add notifications for failures.
+
+
+
+
+
+Week 2
+
+Create dashboards (score trends, review trends, etc.).
+Visualize Sentiments in Metabase.
+
+
+
+
+
+
+
+
+
+
+
 CI/CD Pipeline
 
 Set up GitHub Actions for test, build, and deploy.
@@ -68,5 +81,3 @@ Final Review & Polish
 Check all components work together.
 Polish dashboards and documentation.
 Prepare final report/presentation.
-Tip:
-Work incrementally, commit often, and test each component before moving to the next. Let me know if you want sample configs or code for any step!

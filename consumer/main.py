@@ -1,6 +1,9 @@
 from kafka import KafkaConsumer
 import json
 import psycopg2
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+
+analyzer = SentimentIntensityAnalyzer()
 
 # Connect to PostgreSQL
 conn = psycopg2.connect(
@@ -38,6 +41,15 @@ for message in consumer:
         )
     elif message.topic == "app_reviews":
         print(f"Received app review: {data}")
+        # Sentiment analysis
+        content = data.get("content", "")
+        sentiment_score = analyzer.polarity_scores(content)["compound"]
+        if sentiment_score >= 0.05:
+            sentiment = "positive"
+        elif sentiment_score <= -0.05:
+            sentiment = "negative"
+        else:
+            sentiment = "neutral"
         # Insert into appreview table (adjust fields as needed)
         cur.execute(
             "INSERT INTO apps_appreview (reviewid, app_id, timestamp, content, score, thumbsupcount, username) VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (reviewid) DO NOTHING",
@@ -49,6 +61,7 @@ for message in consumer:
                 data.get("score"),
                 data.get("thumbsUpCount"),
                 data.get("userName"),
+                sentiment,
             ),
         )
     conn.commit()

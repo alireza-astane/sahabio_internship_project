@@ -74,6 +74,21 @@ services:
       - db
       - kafka
 
+
+  metabase:
+    image: metabase/metabase:latest
+    ports:
+      - "3000:3000"
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: sahab
+      MB_DB_PORT: 5432
+      MB_DB_USER: sahab
+      MB_DB_PASS: sahab
+      MB_DB_HOST: db
+    depends_on:
+      - db
+
   # airflow:
   #   image: apache/airflow:2.7.0
   #   environment:
