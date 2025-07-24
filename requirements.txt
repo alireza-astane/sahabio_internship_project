@@ -1,0 +1,7 @@
+django
+djangorestframework
+drf-spectacular
+psycopg2-binary
+kafka-python
+google-play-scraper
+requests

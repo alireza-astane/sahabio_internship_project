@@ -1,15 +1,16 @@
 version: '3.8'
 services:
   db:
-    image: postgres:14
+    image: postgres:16
     environment:
       POSTGRES_DB: sahab
       POSTGRES_USER: sahab
       POSTGRES_PASSWORD: sahab
-    ports:
-      - "5432:5432"
-    volumes:
-      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sahab"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
 
   zookeeper:
     image: bitnami/zookeeper:3.8
@@ -30,17 +31,48 @@ services:
     depends_on:
       - zookeeper
 
-
-
   api:
-    build: ../api
-    command: python manage.py runserver 0.0.0.0:8000
+    build:
+      context: ..
+      dockerfile: api/Dockerfile
+    command: >
+          sh -c "python manage.py makemigrations && python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ../api:/app
     ports:
       - "8000:8000"
     depends_on:
+      db:
+        condition: service_healthy
+
+
+
+    
+
+  crawler:
+    build:
+      context: ..
+      dockerfile: crawler/Dockerfile
+    command: python main.py
+    volumes:
+      - ../crawler:/app
+    depends_on:
+      - api
+      - kafka
+    restart: on-failure
+  
+
+  consumer:
+    build:
+      context: ..
+      dockerfile: consumer/Dockerfile
+    command: python main.py
+    volumes:
+      - ../consumer:/app
+    depends_on:
       - db
+      - kafka
 
   # airflow:
   #   image: apache/airflow:2.7.0

@@ -6,15 +6,54 @@ import json
 import requests
 
 # timestap
+
+
 import datetime
 
-response = requests.get("http://localhost:8000/api/apps/")
-apps = response.json()
 
-producer = KafkaProducer(
-    bootstrap_servers="localhost:9092",
-    value_serializer=lambda v: json.dumps(v).encode("utf-8"),
-)
+def convert_datetimes(obj):
+    if isinstance(obj, dict):
+        return {k: convert_datetimes(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_datetimes(i) for i in obj]
+    elif isinstance(obj, datetime.datetime):
+        return obj.isoformat()
+    else:
+        return obj
+
+
+import time
+
+for _ in range(20):
+    try:
+        response = requests.get("http://api:8000/api/apps/")
+        if response.status_code == 200:
+            print("response = ", response)
+            break
+    except Exception as e:
+        print("Waiting for API to be ready...")
+        time.sleep(10)
+# else:
+#     raise Exception("API not available after waiting")
+apps = response.json()
+print("apps set")
+
+
+from kafka.errors import NoBrokersAvailable
+
+for _ in range(20):
+    try:
+        producer = KafkaProducer(
+            bootstrap_servers="kafka:9092",
+            value_serializer=lambda v: json.dumps(v).encode("utf-8"),
+        )
+        break
+    except NoBrokersAvailable:
+        print("Waiting for Kafka to be ready...")
+        time.sleep(3)
+# else:
+#     raise Exception("Kafka not available after waiting")
+
 
 for app in apps:
     package_name = app["package_name"]
@@ -55,9 +94,9 @@ for app in apps:
             for review in reviews
         ]
 
-        print(details)
-        print(reviews)
-        print(reviews[0])
+        # print(details)
+        # print(reviews)
+        # print(reviews[0])
 
         # TODO: Push details and reviews to Kafka topics
 
@@ -67,13 +106,18 @@ for app in apps:
         for review in reviews:
             review["timestamp"] = timestamp
 
+        details = convert_datetimes(details)
+        reviews = convert_datetimes(reviews)
+
         # Send app stats
         producer.send("app_stats", details)
         # Send reviews
         for review in reviews:
             producer.send("app_reviews", review)
 
-        break
-
     except Exception as e:
         print(f"Error fetching {package_name}: {e}")
+
+
+producer.flush()
+producer.close()

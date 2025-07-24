@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-&hvul6oom1a6+h#6gv3-h2uij5pt$!b0vzvgol3h9pdp8g%xjf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "api"]
 
 
 # Application definition
@@ -89,7 +89,7 @@ DATABASES = {
         "NAME": "sahab",
         "USER": "sahab",
         "PASSWORD": "sahab",
-        "HOST": "localhost",  # or your Docker service name
+        "HOST": "db",  # or your Docker service name
         "PORT": "5432",
     }
 }
