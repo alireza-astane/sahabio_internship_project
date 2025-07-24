@@ -18,14 +18,23 @@ Day 1:
 	Apply migrations.
 	Set up Kafka and Zookeeper with Docker Compose.
 	Create topics: app_stats, app_reviews.
+
+Day 2:
 	Implement crawler to fetch app stats/reviews.
 	Integrate with Django API to get active apps.
 	Push data to Kafka topics.
 	Write basic error handling.
+
+Day 5:
 	Implement consumer to read from Kafka and insert into PostgreSQL.
 	Write unit tests.
 	Metabase Integration
 	Connect Metabase to PostgreSQL.
+	Add sentiment analysis to reviews (VADER/TextBlob).
+	Store sentiment in DB.
+	Set up Airflow with Docker.
+	Create DAGs for crawler scheduling, logging, error handling.
+	Add notifications for failures.
 
 	
 
@@ -33,47 +42,26 @@ Day 1:
 
 
 # Problem The list of apps gets duplications!!!
-
-
-
-
-
-Add sentiment analysis to reviews (VADER/TextBlob).
-Store sentiment in DB.
-
-
-Airflow Integration
-
-Set up Airflow with Docker.
-Create DAGs for crawler scheduling, logging, error handling.
-Add notifications for failures.
-
-
-
-
+# Problem Docker up has problems, pipeline fails!!!
 
 Week 2
+
+
+
+
+Add centerlized logging 
+Fix the pipeline 
+Write integration tests for the whole pipeline.
+Set up GitHub Actions for test, build, and deploy.
+Automate Docker builds and push.
+
+
+
+
 
 Create dashboards (score trends, review trends, etc.).
 Visualize Sentiments in Metabase.
 
-
-
-
-
-
-
-
-
-
-
-CI/CD Pipeline
-
-Set up GitHub Actions for test, build, and deploy.
-Automate Docker builds and push.
-Testing & Documentation
-
-Write integration tests for the whole pipeline.
 Finalize API docs (Swagger).
 Update README with setup and usage instructions.
 Final Review & Polish
@@ -81,3 +69,14 @@ Final Review & Polish
 Check all components work together.
 Polish dashboards and documentation.
 Prepare final report/presentation.
+
+
+
+import logging
+from shared_sqlite_logger import setup_sqlite_logger
+setup_sqlite_logger("crawler")  
+
+
+
+logging.info("This is a log message")
+logging.error("This is an error")
