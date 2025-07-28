@@ -6,21 +6,21 @@ from datetime import datetime
 
 LOG_DB_PATH = "/logs/central_logs.sqlite"
 CONTAINERS = [
-    "api",
-    "crawler",
-    "consumer",
-    "kafka",
-    "zookeeper",
-    "airflow",
-    "metabase",
-]  # Update as needed
+    "docker-api-1",
+    "docker-crawler-1",
+    "docker-consumer-1",
+    "docker-kafka-1",
+    "docker-zookeeper-1",
+    "docker-airflow-1",
+    "docker-metabase-1",
+]
 
 
 def setup_db():
     conn = sqlite3.connect(LOG_DB_PATH)
     conn.execute(
         """
-        CREATE TABLE IF NOT EXISTS docker_logs (
+        CREATE TABLE IF NOT EXISTS logs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             container TEXT,
             log TEXT,
@@ -41,16 +41,21 @@ def tail_logs(container_name):
             if log_line:
                 conn = sqlite3.connect(LOG_DB_PATH)
                 conn.execute(
-                    "INSERT INTO docker_logs (container, log, created) VALUES (?, ?, ?)",
+                    "INSERT INTO logs (container, log, created) VALUES (?, ?, ?)",
                     (container_name, log_line, datetime.now()),
                 )
                 conn.commit()
                 conn.close()
+                print(f"{container_name}: {log_line}")
     except Exception as e:
         print(f"Error tailing {container_name}: {e}")
 
 
-if __name__ == "__main__":
+import schedule
+import time
+
+
+def start_log_collection():
     setup_db()
     threads = []
     for name in CONTAINERS:
@@ -58,6 +63,12 @@ if __name__ == "__main__":
         t.daemon = True
         t.start()
         threads.append(t)
-    # Keep the main thread alive
     for t in threads:
         t.join()
+
+
+if __name__ == "__main__":
+    schedule.every(1).minutes.do(start_log_collection)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)

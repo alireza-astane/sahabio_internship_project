@@ -6,3 +6,5 @@ kafka-python
 google-play-scraper
 requests
 vaderSentiment
+apache-airflow
+schedule

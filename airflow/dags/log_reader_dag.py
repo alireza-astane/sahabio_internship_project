@@ -7,12 +7,10 @@ import sqlite3
 def print_recent_logs():
     conn = sqlite3.connect("/logs/central_logs.sqlite")
     cursor = conn.cursor()
-    cursor.execute(
-        "SELECT created, service, level, message FROM logs ORDER BY created DESC LIMIT 10"
-    )
-    rows = cursor.fetchall()
-    for row in rows:
-        print(row)
+    cursor.execute("SELECT * FROM logs LIMIT 10;")
+    logs = cursor.fetchall()
+    print("logs are here: ", logs)
+    cursor.close()
     conn.close()
 
 
