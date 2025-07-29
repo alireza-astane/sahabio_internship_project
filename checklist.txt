@@ -64,15 +64,18 @@ Pipeline Debug:
 
 
 Fix the pipeline 
-Write integration tests for the whole pipeline.
 Set up GitHub Actions for test, build, and deploy.
+
+
+
 Automate Docker builds and push.
 Finalize API docs (Swagger).
 
 
 
 
-
+TODO‌: 
+More Tests 
 Create dashboards (score trends, review trends, etc.).
 Visualize Sentiments in Metabase.
 
@@ -89,16 +92,6 @@ Prepare final report/presentation.
 docker compose exec api python manage.py makemigrations
 docker compose exec api python manage.py migrate
 
-
-
-sudo mkdir -p ./airflow/logs/scheduler
-sudo chmod -R 777 ./airflow/logs
-
-
-sudo rm -rf ../airflow/logs/*
-sudo rm -rf ../airflow/airflow.db
-docker compose exec airflow airflow db init
-docker compose up -d airflow
 
 
 

@@ -1,0 +1,38 @@
+stages:
+  - setup
+  - airflow-init
+  - test
+  - deploy
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+
+services:
+  - docker:dind
+
+before_script:
+  - apk add --no-cache bash
+
+setup:
+  stage: setup
+  script:
+    - docker compose down
+    - docker compose up -d
+
+airflow-init:
+  stage: airflow-init
+  script:
+    - docker compose run --rm airflow bash -c "airflow db init && airflow db upgrade"
+    - docker compose up -d airflow
+
+test:
+  stage: test
+  script:
+    - docker compose exec api python manage.py test
+
+deploy:
+  stage: deploy
+  script:
+    - docker compose down
+    - docker compose up -d
