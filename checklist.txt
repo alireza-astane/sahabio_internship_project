@@ -45,15 +45,19 @@ Day 5:
 Week 2
 
 
-api OK
-db OK
-crawler OK
-consumer  
-airflow 
-collector
-metabase OK
-kafka OK 
-Zookeeper OK
+Pipeline Debug:
+	consumer  
+
+
+	airflow-crawler  OK
+	api OK
+	db OK
+	crawler OK
+	airflow-log-reader OK 
+	collector OK
+	metabase OK
+	kafka OK 
+	Zookeeper OK
 
 
 
@@ -63,6 +67,7 @@ Fix the pipeline
 Write integration tests for the whole pipeline.
 Set up GitHub Actions for test, build, and deploy.
 Automate Docker builds and push.
+Finalize API docs (Swagger).
 
 
 
@@ -71,7 +76,7 @@ Automate Docker builds and push.
 Create dashboards (score trends, review trends, etc.).
 Visualize Sentiments in Metabase.
 
-Finalize API docs (Swagger).
+
 Update README with setup and usage instructions.
 Final Review & Polish
 

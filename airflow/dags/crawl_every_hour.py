@@ -26,6 +26,5 @@ with DAG(
 
     run_crawler = BashOperator(
         task_id="run_crawler",
-        bash_command="docker compose run --rm crawler python main.py",
-        cwd="/home/astane/Desktop/Sahab/docker",  # set to your docker-compose dir
+        bash_command="python /opt/airflow/crawler/main.py",
     )
