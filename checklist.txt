@@ -110,3 +110,24 @@ airflow db init
 airflow db upgrade
 exit 
 docker compose up -d airflow
+
+
+To connect to Metabase:
+
+Open your browser and go to http://localhost:3000
+
+Login or sign up with the admin account (you’ll be prompted to create one on first launch).
+
+Connect your database:
+
+Go to "Settings" → "Databases" → "Add database".
+Fill in:
+Database type: PostgreSQL
+Host: db
+Port: 5432
+Database name: sahab
+Username: sahab
+Password: sahab
+Save and start exploring your data!
+
+Metabase is already exposed on port 3000 in your docker-compose.yml

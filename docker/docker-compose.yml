@@ -129,21 +129,7 @@ services:
               airflow scheduler & exec airflow webserver"
 
 
-  log_collector:
-    build:
-      context: ../collector
-      dockerfile: Dockerfile
-    volumes:
-      - logs_data:/logs
-      - /var/run/docker.sock:/var/run/docker.sock  
-    depends_on:
-      - api
-      - crawler
-      - consumer
-      - kafka
-      - zookeeper
-      - airflow
-      - metabase
+
 
 volumes:
   db_data:

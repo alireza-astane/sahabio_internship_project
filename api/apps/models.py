@@ -12,12 +12,12 @@ class App(models.Model):
 class AppStat(models.Model):
     app = models.ForeignKey(App, on_delete=models.CASCADE, related_name="stats")
     timestamp = models.DateTimeField()
-    min_installs = models.PositiveIntegerField()
+    min_installs = models.BigIntegerField()
     # installs = models.PositiveIntegerField()
     score = models.FloatField()
     ratings = models.PositiveIntegerField()
-    reviews = models.PositiveIntegerField()
-    updated = models.IntegerField()
+    reviews = models.BigIntegerField()
+    updated = models.BigIntegerField()
     version = models.CharField(max_length=50)
     ad_supported = models.BooleanField()
 
