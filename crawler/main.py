@@ -98,13 +98,14 @@ for app in apps:
         # print(reviews)
         # print(reviews[0])
 
-        # TODO: Push details and reviews to Kafka topics
-
         # add time stamps
         timestamp = datetime.datetime.now().isoformat()
         details["timestamp"] = timestamp
+        details["app_id"] = app["id"]
+
         for review in reviews:
             review["timestamp"] = timestamp
+            review["app_id"] = app["id"]
 
         details = convert_datetimes(details)
         reviews = convert_datetimes(reviews)
@@ -113,6 +114,7 @@ for app in apps:
         producer.send("app_stats", details)
         # Send reviews
         for review in reviews:
+            print("Sending review:", review)
             producer.send("app_reviews", review)
 
     except Exception as e:

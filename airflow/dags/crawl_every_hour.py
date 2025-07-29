@@ -19,7 +19,7 @@ with DAG(
     "run_crawler_hourly",
     default_args=default_args,
     description="Run crawler every hour",
-    schedule_interval="@hourly",
+    schedule_interval="* * * * *",  # "@hourly",
     start_date=days_ago(1),
     catchup=False,
 ) as dag:

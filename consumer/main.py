@@ -30,17 +30,22 @@ for message in consumer:
         print(f"Received app stats: {data}")
         # Insert into appstatssnapshot table (adjust fields as needed)
         cur.execute(
-            "INSERT INTO apps_appstatsnapshot (app_id, timestamp, score, installs, reviews) VALUES (%s, %s, %s, %s, %s)",
+            "INSERT INTO apps_appstat (app_id, timestamp, min_installs, score, ratings, reviews, updated, version, ad_supported) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
             (
                 data.get("app_id"),
                 data.get("timestamp"),
-                data.get("score"),
                 data.get("minInstalls"),
+                data.get("score"),
+                data.get("ratings"),
                 data.get("reviews"),
+                data.get("updated"),
+                data.get("version"),
+                data.get("adSupported"),
             ),
         )
     elif message.topic == "app_reviews":
         print(f"Received app review: {data}")
+        print("app_id value:", data.get("app_id"))
         # Sentiment analysis
         content = data.get("content", "")
         sentiment_score = analyzer.polarity_scores(content)["compound"]
@@ -52,15 +57,15 @@ for message in consumer:
             sentiment = "neutral"
         # Insert into appreview table (adjust fields as needed)
         cur.execute(
-            "INSERT INTO apps_appreview (reviewid, app_id, timestamp, content, score, thumbsupcount, username) VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (reviewid) DO NOTHING",
+            "INSERT INTO apps_appreview (review_id, app_id, timestamp, user_name, score, content, thumbs_up, sentiment) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT (review_id) DO NOTHING",
             (
                 data.get("reviewId"),
                 data.get("app_id"),
                 data.get("timestamp"),
-                data.get("content"),
-                data.get("score"),
-                data.get("thumbsUpCount"),
                 data.get("userName"),
+                data.get("score"),
+                data.get("content"),
+                data.get("thumbsUpCount"),
                 sentiment,
             ),
         )

@@ -74,8 +74,12 @@ services:
       - ../consumer:/app
       - logs_data:/logs
     depends_on:
-      - db
-      - kafka
+      db:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+      
+        
 
 
   metabase:
@@ -90,7 +94,9 @@ services:
       MB_DB_PASS: sahab
       MB_DB_HOST: db
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+
 
   airflow:
     image: apache/airflow:2.7.0
@@ -103,21 +109,24 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     volumes:
       - ../airflow/dags:/opt/airflow/dags
       - ../airflow/logs:/opt/airflow/logs
       - ../airflow/plugins:/opt/airflow/plugins
       - ../crawler:/opt/airflow/crawler
-      - logs_data:/logs
+
+      # - logs_data:/logs
+      - ../logs:/logs
       - ./airflow/logs:/opt/airflow/logs
-      - ../requirements.txt:/requirements.txt   # <-- add this line
+      - ../requirements.txt:/requirements.txt  
     command: >
       bash -c "pip install -r /requirements.txt &&
               airflow db init &&
               airflow db upgrade &&
               airflow users create --username admin --firstname admin --lastname admin --role Admin --email admin@example.com --password admin &&
-              airflow scheduler & airflow webserver"
+              airflow scheduler & exec airflow webserver"
 
 
   log_collector:
@@ -126,7 +135,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - logs_data:/logs
-      - /var/run/docker.sock:/var/run/docker.sock  # Needed for Docker API access
+      - /var/run/docker.sock:/var/run/docker.sock  
     depends_on:
       - api
       - crawler
