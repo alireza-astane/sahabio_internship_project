@@ -20,12 +20,6 @@ setup:
     - docker compose down
     - docker compose up -d
 
-airflow-init:
-  stage: airflow-init
-  script:
-    - docker compose run --rm airflow bash -c "airflow db init && airflow db upgrade"
-    - docker compose up -d airflow
-
 test:
   stage: test
   script:
