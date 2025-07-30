@@ -65,10 +65,10 @@ Pipeline Debug:
 
 Fix the pipeline 
 Set up GitHub Actions for test, build, and deploy.
-
-
-
 Automate Docker builds and push.
+
+
+
 Finalize API docs (Swagger).
 
 
@@ -97,12 +97,6 @@ docker compose exec api python manage.py migrate
 
 docker compose down
 docker compose up -d
-
-docker compose run --rm airflow bash
-airflow db init
-airflow db upgrade
-exit 
-docker compose up -d airflow
 
 
 To connect to Metabase:
