@@ -36,7 +36,7 @@ services:
       context: ..
       dockerfile: api/Dockerfile
     command: >
-          sh -c "python manage.py makemigrations && python manage.py migrate &&
+          sh -c "pip freeze && python manage.py makemigrations && python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ../api:/app
@@ -94,38 +94,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
-
-  # airflow:
-  #   image: apache/airflow:2.7.0
-  #   environment:
-  #     AIRFLOW__CORE__EXECUTOR: LocalExecutor
-  #     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://sahab:sahab@db:5432/sahab
-  #     AIRFLOW__CORE__FERNET_KEY: q_oMVrOGCZ1-lFqv9xmmQRp7eLUYcwUl72H2v0-IasQ=
-  #     AIRFLOW__CORE__LOAD_EXAMPLES: 'False'
-  #     AIRFLOW__WEBSERVER__SECRET_KEY: 1zbsvfqk74637S2LnVYkHctCMjEnDiQEPdH7p6UgFUg
-  #   ports:
-  #     - "8080:8080"
-  #   depends_on:
-  #     db:
-  #       condition: service_healthy
-  #   volumes:
-  #     - ../airflow/dags:/opt/airflow/dags
-  #     - ../airflow/logs:/opt/airflow/logs
-  #     - ../airflow/plugins:/opt/airflow/plugins
-  #     - ../crawler:/opt/airflow/crawler
-
-  #     # - logs_data:/logs
-  #     - ../logs:/logs
-  #     - ./airflow/logs:/opt/airflow/logs
-  #     - ./airflow-requirements.txt:/requirements.txt
-  #   command: >
-  #     bash -c "pip install -r /requirements.txt &&
-  #             airflow db init &&
-  #             airflow db upgrade &&
-  #             airflow users create --username admin --firstname admin --lastname admin --role Admin --email admin@example.com --password admin &&
-  #             airflow scheduler & exec airflow webserver"
-
 
 
 

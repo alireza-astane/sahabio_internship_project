@@ -37,11 +37,6 @@ Day 5:
 	Add notifications for failures.
 	Add centerlized logging 
 
-	
-
-
-
-
 Tuesday:
 
 	Fix the pipeline 
@@ -51,15 +46,13 @@ Tuesday:
 
 
 Wednesday:
+	Multilingual Sentiment analysis 
+	complete app list
+	requierments.txt
 
 TODO‌: 
-Multilingual Sentiment analysis 
-complete app list
-requierments.txt
+
 Create dashboards (score trends, review trends, etc.).
-
-
-
 Update README with setup and usage instructions.
 Final Review & Polish, comments 
 Prepare final report/presentation.
