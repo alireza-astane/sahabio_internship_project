@@ -1,7 +1,0 @@
-apache-airflow==2.7.0
-psycopg2-binary
-requests
-vaderSentiment
-kafka-python
-google-play-scraper
-schedule

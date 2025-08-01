@@ -1,0 +1,4 @@
+deep_translator==1.11.4
+kafka-python==2.2.15
+psycopg2-binary==2.9.10
+transformers==4.54.1

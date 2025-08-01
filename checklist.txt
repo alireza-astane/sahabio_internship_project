@@ -51,10 +51,14 @@ Wednesday:
 	requierments.txt
 
 TODO‌: 
+final check 
+remove extra files 
+clear extra comments
+
+
 
 Create dashboards (score trends, review trends, etc.).
 Update README with setup and usage instructions.
-Final Review & Polish, comments 
 Prepare final report/presentation.
 
 
