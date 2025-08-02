@@ -73,8 +73,8 @@ Prepare final report/presentation.
 
 
 
-
-
+docker compose exec kafka kafka-topics.sh --alter --topic app_reviews --partitions 3 --bootstrap-server localhost:9092
+docker compose up -d --scale consumer=3
 
 
 
@@ -122,3 +122,12 @@ Password: sahab
 Save and start exploring your data!
 
 Metabase is already exposed on port 3000 in your docker-compose.yml
+
+
+
+
+docker compose exec kafka kafka-topics.sh --alter --topic app_reviews --partitions 3 --bootstrap-server localhost:9092
+docker compose exec kafka kafka-topics.sh --describe --topic app_reviews --bootstrap-server localhost:9092
+
+
+docker compose up -d --scale consumer=3

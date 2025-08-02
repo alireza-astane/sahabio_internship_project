@@ -6,11 +6,14 @@ services:
       POSTGRES_DB: sahab
       POSTGRES_USER: sahab
       POSTGRES_PASSWORD: sahab
+    volumes:
+      - db_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U sahab"]
       interval: 3s
       timeout: 3s
       retries: 5
+    
 
   zookeeper:
     image: bitnami/zookeeper:3.8
@@ -71,6 +74,7 @@ services:
       sh -c "python main.py"
     volumes:
       - ../consumer:/app
+      - ~/.cache/huggingface:/root/.cache/huggingface
 
     depends_on:
       db:

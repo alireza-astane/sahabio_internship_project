@@ -7,7 +7,10 @@ from transformers import pipeline
 
 
 translator = GoogleTranslator(source="auto", target="en")
-sentiment = pipeline("sentiment-analysis")
+sentiment = sentiment = pipeline(
+    "sentiment-analysis",
+    model="distilbert/distilbert-base-uncased-finetuned-sst-2-english",
+)
 
 
 def sentiment_analysis(text):
@@ -37,11 +40,17 @@ consumer = KafkaConsumer(
     group_id="sahab_consumer",
 )
 
+
+BATCH_SIZE = 100
+
+review_batch = []
+
 for message in consumer:
     data = message.value
     if message.topic == "app_stats":
+        print(f"Processing app stats for app_id: {data.get('app_id')}")
         cur.execute(
-            "INSERT INTO apps_appstat (app_id, timestamp, min_installs, score, ratings, reviews, updated, version, ad_supported) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+            "INSERT INTO apps_appstat (app_id, timestamp, min_installs, score, ratings, reviews, updated, version, ad_supported) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT (app_id, timestamp) DO NOTHING",
             (
                 data.get("app_id"),
                 data.get("timestamp"),
@@ -54,11 +63,16 @@ for message in consumer:
                 data.get("adSupported"),
             ),
         )
+        conn.commit()
+        print(f"Inserted app stats for app_id: {data.get('app_id')}")
     elif message.topic == "app_reviews":
+        print(f"Processing review for app_id: {data.get('app_id')}")
         content = data.get("content", "")
-        sentiment_result = sentiment_analysis(content)
-        cur.execute(
-            "INSERT INTO apps_appreview (review_id, app_id, timestamp, user_name, score, content, thumbs_up, sentiment) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT (review_id) DO NOTHING",
+        if content:
+            sentiment_result = sentiment_analysis(content)
+        else:
+            sentiment_result = None
+        review_batch.append(
             (
                 data.get("reviewId"),
                 data.get("app_id"),
@@ -68,6 +82,23 @@ for message in consumer:
                 data.get("content"),
                 data.get("thumbsUpCount"),
                 sentiment_result,
-            ),
+            )
         )
+        if len(review_batch) >= BATCH_SIZE:
+            cur.executemany(
+                "INSERT INTO apps_appreview (review_id, app_id, timestamp, user_name, score, content, thumbs_up, sentiment) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT (review_id) DO NOTHING",
+                review_batch,
+            )
+            conn.commit()
+            review_batch = []
+            print(
+                f"Inserted {BATCH_SIZE} reviews into the database for app_id: {data.get('app_id')}"
+            )
+
+# At the end, insert any remaining reviews
+if review_batch:
+    cur.executemany(
+        "INSERT INTO apps_appreview (review_id, app_id, timestamp, user_name, score, content, thumbs_up, sentiment) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT (review_id) DO NOTHING",
+        review_batch,
+    )
     conn.commit()

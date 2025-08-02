@@ -110,8 +110,17 @@ def run_crawler():
     producer.close()
 
 
-run_crawler()
-schedule.every().hour.do(run_crawler)
+def run_robust_crawler():
+    try:
+        run_crawler()
+    except Exception as e:
+        print(f"Error in crawler: {e}")
+        time.sleep(10)
+
+
+print("Starting robust crawler...")
+run_robust_crawler()
+schedule.every().hour.do(run_robust_crawler)
 
 while True:
     schedule.run_pending()
