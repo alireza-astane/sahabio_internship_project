@@ -36,7 +36,7 @@ services:
       context: ../api
       dockerfile: Dockerfile
     command: >
-          sh -c "pip freeze && python manage.py makemigrations && python manage.py migrate &&
+          sh -c "python manage.py makemigrations && python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ../api:/app
@@ -68,7 +68,7 @@ services:
       context: ../consumer
       dockerfile: Dockerfile
     command: > 
-      sh -c "pip freeze && python main.py"
+      sh -c "python main.py"
     volumes:
       - ../consumer:/app
 

@@ -56,7 +56,6 @@ class AppAPITestCase(TestCase):
     # --- Crawler simulation test ---
     def test_crawler_simulation(self):
         """Simulate a crawler result (mocked)."""
-        # Suppose your crawler fetches app info and posts to API
         data = {
             "package_name": "com.example.crawler",
             "category": "Crawler",
@@ -69,8 +68,7 @@ class AppAPITestCase(TestCase):
     # --- Consumer simulation test ---
     def test_consumer_simulation(self):
         """Simulate consumer inserting a review (mocked)."""
-        # Simulate what your consumer would do after reading from Kafka
-        from apps.models import AppReview  # adjust import if needed
+        from apps.models import AppReview
 
         app = self.app
         review = AppReview.objects.create(

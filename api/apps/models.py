@@ -143,7 +143,6 @@ class AppReview(models.Model):
     content = models.TextField()
     thumbs_up = models.PositiveIntegerField()
 
-    # Optional field for later sentiment analysis
     sentiment = models.CharField(
         max_length=10,
         choices=[

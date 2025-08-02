@@ -30,8 +30,7 @@ def run_crawler():
         except Exception as e:
             print("Waiting for API to be ready...")
             time.sleep(10)
-    # else:
-    #     raise Exception("API not available after waiting")
+
     apps = response.json()
     print("apps set")
 
@@ -47,8 +46,6 @@ def run_crawler():
         except NoBrokersAvailable:
             print("Waiting for Kafka to be ready...")
             time.sleep(3)
-    # else:
-    #     raise Exception("Kafka not available after waiting")
 
     for app in apps:
         package_name = app["package_name"]
@@ -81,7 +78,7 @@ def run_crawler():
             reviews, _ = greviews(
                 package_name,
                 sort=Sort.NEWEST,
-                count=10,
+                count=1000,
             )
 
             reviews = [
@@ -89,11 +86,6 @@ def run_crawler():
                 for review in reviews
             ]
 
-            # print(details)
-            # print(reviews)
-            # print(reviews[0])
-
-            # add time stamps
             timestamp = datetime.datetime.now().isoformat()
             details["timestamp"] = timestamp
             details["app_id"] = app["id"]
@@ -105,9 +97,8 @@ def run_crawler():
             details = convert_datetimes(details)
             reviews = convert_datetimes(reviews)
 
-            # Send app stats
             producer.send("app_stats", details)
-            # Send reviews
+
             for review in reviews:
                 print("Sending review:", review)
                 producer.send("app_reviews", review)
@@ -119,7 +110,7 @@ def run_crawler():
     producer.close()
 
 
-schedule.every().minute.do(run_crawler)
+schedule.every().hour.do(run_crawler)
 
 while True:
     schedule.run_pending()

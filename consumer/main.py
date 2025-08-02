@@ -5,7 +5,6 @@ import psycopg2
 from deep_translator import GoogleTranslator
 from transformers import pipeline
 
-# analyzer = SentimentIntensityAnalyzer()
 
 translator = GoogleTranslator(source="auto", target="en")
 sentiment = pipeline("sentiment-analysis")
@@ -16,7 +15,6 @@ def sentiment_analysis(text):
     return sentiment(translated)[0].get("label")
 
 
-# Connect to PostgreSQL
 conn = psycopg2.connect(
     dbname="sahab",
     user="sahab",
@@ -38,8 +36,6 @@ consumer = KafkaConsumer(
 for message in consumer:
     data = message.value
     if message.topic == "app_stats":
-        print(f"Received app stats: {data}")
-        # Insert into appstatssnapshot table (adjust fields as needed)
         cur.execute(
             "INSERT INTO apps_appstat (app_id, timestamp, min_installs, score, ratings, reviews, updated, version, ad_supported) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
             (
@@ -55,13 +51,8 @@ for message in consumer:
             ),
         )
     elif message.topic == "app_reviews":
-        print(f"Received app review: {data}")
-        print("app_id value:", data.get("app_id"))
-        # Sentiment analysis
         content = data.get("content", "")
         sentiment_result = sentiment_analysis(content)
-        print(sentiment_result)
-        # Insert into appreview table (adjust fields as needed)
         cur.execute(
             "INSERT INTO apps_appreview (review_id, app_id, timestamp, user_name, score, content, thumbs_up, sentiment) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT (review_id) DO NOTHING",
             (

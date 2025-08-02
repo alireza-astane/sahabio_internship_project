@@ -50,8 +50,12 @@ Wednesday:
 	complete app list
 	requierments.txt
 
+Friday:
+	Fix torch package installation 
+	final check 
+
 TODO‌: 
-final check 
+
 remove extra files 
 clear extra comments
 
