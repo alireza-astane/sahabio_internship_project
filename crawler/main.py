@@ -110,6 +110,7 @@ def run_crawler():
     producer.close()
 
 
+run_crawler()
 schedule.every().hour.do(run_crawler)
 
 while True:

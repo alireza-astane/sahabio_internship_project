@@ -53,11 +53,14 @@ Wednesday:
 Friday:
 	Fix torch package installation 
 	final check 
+	remove extra files 
+	clear extra comments
+	Start Metabase and connect to PostgreSQL.
+	Start data gathering
 
 TODO‌: 
 
-remove extra files 
-clear extra comments
+
 
 
 

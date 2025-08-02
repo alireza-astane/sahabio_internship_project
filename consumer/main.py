@@ -11,8 +11,12 @@ sentiment = pipeline("sentiment-analysis")
 
 
 def sentiment_analysis(text):
-    translated = translator.translate(text)
-    return sentiment(translated)[0].get("label")
+    try:
+        translated = translator.translate(text)
+        return sentiment(translated)[0].get("label")
+    except Exception as e:
+        print(f"Error in sentiment analysis: {e}")
+        return None
 
 
 conn = psycopg2.connect(
