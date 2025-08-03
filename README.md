@@ -53,10 +53,32 @@ This project was developed as part of an internship at **Sahab Company** and dem
 - **Testing**: Django Test Framework, Kafka Consumer Simulation
 
 ---
-
 ## Project Structure
 
-Sahab/ ├── api/ # Django API for managing app data │ ├── apps/ # Django app for app data │ │ ├── migrations/ # Database migrations │ │ ├── models.py # Database models │ │ ├── serializers.py # DRF serializers │ │ ├── tests.py # Unit tests │ │ ├── views.py # API views │ ├── config/ # Django project configuration │ │ ├── settings.py # Project settings │ │ ├── urls.py # URL routing │ │ ├── wsgi.py # WSGI entry point │ ├── manage.py # Django management script │ ├── requirements.txt # Python dependencies for the API │ ├── Dockerfile # Dockerfile for the Django API ├── crawler/ # Crawler for fetching app data │ ├── requirements.txt # Python dependencies for the crawler ├── docker/ # Docker-related files │ ├── docker-compose.yml # Docker Compose configuration │ ├── run.sh # Script to start the pipeline ├── checklist.txt # Development checklist ├── README.md 
+```
+Sahab/
+├── api/                  # Django API for managing app data
+│   ├── apps/             # Django app for app data
+│   │   ├── migrations/   # Database migrations
+│   │   ├── models.py     # Database models
+│   │   ├── serializers.py# DRF serializers
+│   │   ├── tests.py      # Unit tests
+│   │   ├── views.py      # API views
+│   ├── config/           # Django project configuration
+│   │   ├── settings.py   # Project settings
+│   │   ├── urls.py       # URL routing
+│   │   ├── wsgi.py       # WSGI entry point
+│   ├── manage.py         # Django management script
+│   ├── requirements.txt  # Python dependencies for the API
+│   ├── Dockerfile        # Dockerfile for the Django API
+├── crawler/              # Crawler for fetching app data
+│   ├── requirements.txt  # Python dependencies for the crawler
+├── docker/               # Docker-related files
+│   ├── docker-compose.yml# Docker Compose configuration
+│   ├── run.sh            # Script to start the pipeline
+├── checklist.txt         # Development checklist
+├── README.md             # Project documentation
+```
 
 # Project documentation
 
