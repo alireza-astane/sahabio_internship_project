@@ -26,6 +26,7 @@ jobs:
           sudo apt-get install -y docker-compose
 
       - name: Start Services
+        working-directory: ./docker
         run: |
           docker compose up -d
 
@@ -47,6 +48,7 @@ jobs:
           sudo apt-get install -y docker-compose
 
       - name: Run Django Tests
+        working-directory: ./docker
         run: |
           docker compose exec api python manage.py test
 
@@ -68,10 +70,11 @@ jobs:
           sudo apt-get install -y docker-compose
 
       - name: Deploy Services
+        working-directory: ./docker
         run: |
-            docker compose up -d
-            docker compose exec kafka kafka-topics.sh --create --topic app_stats --partitions 1 --replication-factor 1 --bootstrap-server localhost:9092 || true
-            docker compose exec kafka kafka-topics.sh --create --topic app_reviews --partitions 1 --replication-factor 1 --bootstrap-server localhost:9092 || true
-            docker compose exec kafka kafka-topics.sh --alter --topic app_stats --partitions 3 --bootstrap-server localhost:9092
-            docker compose exec kafka kafka-topics.sh --alter --topic app_reviews --partitions 3 --bootstrap-server localhost:9092
-            docker compose up -d --scale consumer=3
+          docker compose up -d
+          docker compose exec kafka kafka-topics.sh --create --topic app_stats --partitions 1 --replication-factor 1 --bootstrap-server localhost:9092 || true
+          docker compose exec kafka kafka-topics.sh --create --topic app_reviews --partitions 1 --replication-factor 1 --bootstrap-server localhost:9092 || true
+          docker compose exec kafka kafka-topics.sh --alter --topic app_stats --partitions 3 --bootstrap-server localhost:9092
+          docker compose exec kafka kafka-topics.sh --alter --topic app_reviews --partitions 3 --bootstrap-server localhost:9092
+          docker compose up -d --scale consumer=3
