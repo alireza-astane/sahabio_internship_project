@@ -1,6 +1,5 @@
 stages:
   - setup
-  - airflow-init
   - test
   - deploy
 
@@ -13,20 +12,25 @@ services:
 
 before_script:
   - apk add --no-cache bash
+  - chmod +x docker/run.sh
 
 setup:
   stage: setup
   script:
-    - docker compose down
-    - docker compose up -d
+    - ./docker/run.sh
 
 test:
   stage: test
   script:
+    - ./docker/run.sh
     - docker compose exec api python manage.py test
 
 deploy:
   stage: deploy
   script:
-    - docker compose down
-    - docker compose up -d
+    - ./docker/run.sh
+    - docker compose exec kafka kafka-topics.sh --create --topic app_stats --partitions 1 --replication-factor 1 --bootstrap-server localhost:9092 || true
+    - docker compose exec kafka kafka-topics.sh --create --topic app_reviews --partitions 1 --replication-factor 1 --bootstrap-server localhost:9092 || true
+    - docker compose exec kafka kafka-topics.sh --alter --topic app_stats --partitions 3 --bootstrap-server localhost:9092
+    - docker compose exec kafka kafka-topics.sh --alter --topic app_reviews --partitions 3 --bootstrap-server localhost:9092
+    - docker compose up -d --scale consumer=3
