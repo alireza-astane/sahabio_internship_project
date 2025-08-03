@@ -239,6 +239,78 @@ This project follows a **microservices architecture**. Each component of the pip
 
 ---
 
+## Testing
+
+### Running Tests
+
+To ensure the functionality of the project, you can run the tests provided for the API, Kafka consumers, and other components.
+
+#### **1. Run Django API Tests**
+To run the tests for the Django API:
+1. Ensure the Docker services are running:
+   ```bash
+   ./docker/run.sh
+   ```
+2. Execute the tests inside the `api` service:
+   ```bash
+   docker compose exec api python manage.py test
+   ```
+
+#### **2. Run Kafka Consumer Tests**
+If you have tests for Kafka consumers, you can run them as follows:
+1. Ensure Kafka is running.
+2. Execute the tests inside the `consumer` service:
+   ```bash
+   docker compose exec consumer pytest
+   ```
+
+#### **3. Run Crawler Tests**
+To test the crawler:
+1. Navigate to the `crawler` directory:
+   ```bash
+   cd crawler
+   ```
+2. Run the tests using `pytest`:
+   ```bash
+   pytest
+   ```
+   Alternatively, if running inside Docker:
+   ```bash
+   docker compose exec crawler pytest
+   ```
+
+### Checking Test Coverage (Optional)
+To check the test coverage for the Django API:
+1. Install `coverage`:
+   ```bash
+   pip install coverage
+   ```
+2. Run the tests with coverage:
+   ```bash
+   docker compose exec api coverage run manage.py test
+   ```
+3. Generate a coverage report:
+   ```bash
+   docker compose exec api coverage report
+   ```
+
+### Continuous Integration
+The project includes a GitLab CI/CD pipeline that automatically runs tests during the `test` stage. The pipeline configuration is defined in the `.gitlab-ci.yml` file:
+```yaml
+test:
+  stage: test
+  script:
+    - docker compose exec api python manage.py test
+```
+This ensures that all tests are executed before deployment.
+
+---
+
+By running these tests, you can verify that the project components are functioning as expected and maintain code quality.
+
+
+---
+
 ## Future Improvements
 
 - **Multilingual Sentiment Analysis**: Extend sentiment analysis to support multiple languages.
