@@ -1,9 +1,3 @@
-*.pdf
-
-./*.pdf
-
-
-
 /__pycache__/
 
 api/apps/__pycache__/

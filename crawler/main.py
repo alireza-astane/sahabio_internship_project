@@ -7,6 +7,7 @@ import requests
 import schedule
 import time
 import datetime
+from kafka.errors import NoBrokersAvailable
 
 
 def convert_datetimes(obj):
@@ -33,8 +34,6 @@ def run_crawler():
 
     apps = response.json()
     print("apps set")
-
-    from kafka.errors import NoBrokersAvailable
 
     for _ in range(20):
         try:

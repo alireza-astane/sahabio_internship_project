@@ -58,76 +58,14 @@ Friday:
 	Start Metabase and connect to PostgreSQL.
 	Start data gathering
 
-TODO‌: 
+Sunday:
+	Create dashboards (score trends, review trends, etc.).
+
+
+Saturday:
+	Update README with setup and usage instructions.
+	Prepare final report/presentation.
 
 
 
 
-
-Create dashboards (score trends, review trends, etc.).
-Update README with setup and usage instructions.
-Prepare final report/presentation.
-
-
-
-
-
-
-docker compose exec kafka kafka-topics.sh --alter --topic app_reviews --partitions 3 --bootstrap-server localhost:9092
-docker compose up -d --scale consumer=3
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-docker compose exec api python manage.py makemigrations
-docker compose exec api python manage.py migrate
-
-
-
-
-docker compose down
-docker compose up -d
-
-
-To connect to Metabase:
-
-Open your browser and go to http://localhost:3000
-
-Login or sign up with the admin account (you’ll be prompted to create one on first launch).
-
-Connect your database:
-
-Go to "Settings" → "Databases" → "Add database".
-Fill in:
-Database type: PostgreSQL
-Host: db
-Port: 5432
-Database name: sahab
-Username: sahab
-Password: sahab
-Save and start exploring your data!
-
-Metabase is already exposed on port 3000 in your docker-compose.yml
-
-
-
-
-docker compose exec kafka kafka-topics.sh --alter --topic app_reviews --partitions 3 --bootstrap-server localhost:9092
-docker compose exec kafka kafka-topics.sh --describe --topic app_reviews --bootstrap-server localhost:9092
-
-
-docker compose up -d --scale consumer=3
